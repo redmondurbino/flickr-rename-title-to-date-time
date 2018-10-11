@@ -15,7 +15,6 @@ print api_secret
 flickr_user_id= os.environ.get('FLICKR_USER_ID','')
 flickr_set_to_rename= os.environ.get('FLICKR_SET_TO_RENAME','')
 
-#flickr_set_to_rename ='72157659400135206'
 
 flickr = flickrapi.FlickrAPI(api_key, api_secret)
 flickr.authenticate_via_browser(perms='write')
@@ -57,8 +56,13 @@ def set_title(photo, title):
         print "Error changing title response = " + xml.etree.ElementTree.tostring(response)
 
 count =0
+changed=0
 output = ''
 dry_run = False
+
+if dry_run:
+    print "dry run is true, not doing any actual changes"
+
 for photo in flickr.walk_set(flickr_set_to_rename):
     count += 1
     #print count, photo.get('title'), photo.get('id')
@@ -82,12 +86,16 @@ for photo in flickr.walk_set(flickr_set_to_rename):
             print 'changing "%s" to "%s" id="%s"' % (title, new_title, photo_id)
             if not dry_run:
                 set_title(photo, new_title)
+                changed += 1
         else:
             print 'Warning could not find date taken for "%s" id="%s"' % (title,  photo_id)
     if count % 1000 == 0:
         print count
 
     #print "----- end -----"
+
+print "photos checked=",count
+print "photos renamed=", changed
 
 
 
