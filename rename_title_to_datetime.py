@@ -21,16 +21,8 @@ default_set_id = flickr_set_id= os.environ.get('FLICKR_SET_ID','')
 print "default FLICKR_SET_ID=",default_set_id
 
 
-
-#search = flickr.photos.search(user_id= flickr_user_id, per_page='100', text='-20')
-#print "search=",xml.etree.ElementTree.tostring(search)
-
-#sets = flickr.photosets.getList(user_id= flickr_user_id)
-
-#print xml.etree.ElementTree.tostring(sets)
-
-
 def find_date_taken(flickr, photo):
+    """Returns when the photo was taken."""
     photo_id = photo.get('id')
     #print photo_id
     info = flickr.photos.getInfo(photo_id=photo_id)
@@ -68,16 +60,7 @@ def search_and_change(flickr, args):
 
 	for photo in flickr.walk_set(args.flickr_set_id):
 		count += 1
-		#print count, photo.get('title'), photo.get('id')
-		#print "----- photo -----"
-		#print xml.etree.ElementTree.tostring(photo)
 		photo_id = photo.get('id')
-		#print photo_id
-		#info = flickr.photos.getInfo(photo_id=photo_id)
-		#print "----- info -----"
-		#print xml.etree.ElementTree.tostring(info)
-		#print "---- date taken --- "
-
 		title = photo.get('title')
 	
 		# find photos that don't start with the year 20xx,
@@ -94,8 +77,6 @@ def search_and_change(flickr, args):
 				print 'Warning could not find date taken for "%s" id="%s"' % (title,  photo_id)
 		if count % 1000 == 0:
 			print count
-
-		#print "----- end -----"
 
 	print "photos checked=",count
 	print "photos renamed=", changed
