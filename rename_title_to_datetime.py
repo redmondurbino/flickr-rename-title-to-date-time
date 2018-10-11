@@ -53,7 +53,7 @@ def search_and_change(flickr, args):
 	count =0
 	changed=0
 	output = ''
-	dry_run = False
+	dry_run = args.dry_run
 
 	if dry_run:
 		print "dry run is true, not doing any actual changes"
@@ -89,6 +89,7 @@ def parse_args():
     parser.add_argument("--api_secret", default = default_api_secret, help = "the flickr api secret. https://www.flickr.com/services/api/misc.api_keys.html")
     parser.add_argument("--flickr_user_id", default = default_flickr_user_id, help = "your flickr user id. https://www.webpagefx.com/tools/idgettr/")
     parser.add_argument("--flickr_set_id", default = default_set_id, help = "the set (or album) you want to rename photos in. run print_set_ids.py to get a list")
+    parser.add_argument('--dry_run',action='store_true', help = "when used, will not achtually change the photo tiles ")
     args = parser.parse_args()
     return args
     
